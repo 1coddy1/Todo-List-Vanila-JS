@@ -4,6 +4,11 @@ let todo = document.querySelector('.todoList');
 
 let todoList = [];
 
+if (localStorage.getItem('TodoList')) {
+	todoList = JSON.parse(localStorage.getItem('TodoList'));
+	displayTodo();
+};
+
 input.addEventListener('keyup', () => {
 	let inputValue = input.value;
 
@@ -16,12 +21,12 @@ input.addEventListener('keyup', () => {
 
 button.addEventListener('click', () => {
 	let objTodo = {
-		todo: input.value,
-		checked: false
+		todo: input.value
 	}
 
 	todoList.push(objTodo);
 	displayTodo();
+	localStorage.setItem('TodoList', JSON.stringify(todoList));
 });
 
 function displayTodo () {
@@ -31,7 +36,7 @@ function displayTodo () {
 	todoList.forEach((element) => {
 		display += `
 		<li class="todoList_item">
-			<span><i id="todoList_icon" class="fas fa-check-square"></i></span>${element.todo}
+			<span><i id="todoList_icon" class="fas fa-trash"></i></span>${element.todo}
 		</li>
 		`;
 		todo.innerHTML = display;
