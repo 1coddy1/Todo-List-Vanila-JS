@@ -33,15 +33,26 @@ function displayTodo () {
 
 	let display = '';
 
-	todoList.forEach((element) => {
-		display += `
+	todoList.map((element) => display += `
 		<li class="todoList_item">
-			<span><i id="todoList_icon" class="fas fa-trash"></i></span>${element.todo}
+			<span><i class="fas fa-trash"></i></span>${element.todo}
 		</li>
-		`;
-		todo.innerHTML = display;
-	});
+		`).join();
+	todo.innerHTML = display;
 
 	input.value = '';
 	button.classList.remove('active');
 };
+
+todo.addEventListener('click', (e) => {
+	if (e.target.className == 'fas fa-trash') {
+		function deleteTodo (index) {
+			todoList = JSON.parse(localStorage.getItem('TodoList'));
+			todoList.splice(index, 1);
+			localStorage.setItem('TodoList', JSON.stringify(todoList));
+			displayTodo();
+		};
+
+		deleteTodo();
+	};
+});
